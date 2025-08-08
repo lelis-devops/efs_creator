@@ -19,12 +19,19 @@ filesystem_id=$(aws efs create-file-system \
 
 echo "EFS FileSystemId: $filesystem_id"
 
+#Installation for ubuntu
 sudo apt update -y
 sudo apt install -y nfs-common
 sudo mkdir -p /mnt/efs
 sudo mkdir -p /mnt/efs/ubuntu
 sudo mount -t nfs -o nfsvers=4.1 fs-XXXXXX.efs.us-east-1.amazonaws.com:/ /mnt/efs/ubuntu
 
+#Installation for amazon linux
+sudo yum install -y amazon-efs-utils
+sudo mkdir -p /mnt/efs
+sudo mkdir -p /mnt/efs/amazonlinux
+sudo mount -t efs fs-XXXXXX:/ /mnt/efs/amazonlinux
+echo "fs-XXXXXX:/ /mnt/efs/amazonlinux efs _netdev,tls 0 0" | sudo tee -a /etc/fstab
 
 }
 
